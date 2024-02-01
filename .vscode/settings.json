@@ -1,0 +1,5 @@
+{
+  "editor.wordWrap": "on",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
