@@ -32,7 +32,8 @@
     "react-datepicker": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.0",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "usehooks-ts": "^2.12.1"
   },
   "devDependencies": {
     "@tanstack/react-query": "^4.36.1",

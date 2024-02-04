@@ -15,8 +15,6 @@ const getLives = async (
 
     const data = await response.json();
 
-    console.log("RESPONSE", data);
-
     return data;
   } catch (error) {
     console.log("Error while fetching data", error);
