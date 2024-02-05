@@ -1,3 +1,4 @@
+import { dateFormat } from "@/helpers/dateFormat";
 import {
   Card,
   Text,
@@ -10,6 +11,7 @@ import {
   Heading,
   Image,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -32,6 +34,8 @@ const LiveCard: React.FC<LiveProps> = ({
 }): ReactNode => {
   const greaterThan = useMediaQuery("(min-width: 550px)");
   const smallerThan768 = useMediaQuery("(max-width: 550px)");
+  const router = useRouter();
+  const isDashboardPage = router.pathname === "/dashboard";
 
   if (smallerThan768) {
     return (
@@ -48,7 +52,7 @@ const LiveCard: React.FC<LiveProps> = ({
             <Text>{description}</Text>
           </Stack>
           <Text>
-            {startDate} - {finishDate}
+            {dateFormat(startDate)} até {dateFormat(finishDate)}
           </Text>
         </CardBody>
         <Divider />
@@ -62,14 +66,16 @@ const LiveCard: React.FC<LiveProps> = ({
             >
               Detalhes
             </Button>
-            <Button
-              variant="ghost"
-              bg="tropical_indigo"
-              color="mint_cream"
-              colorScheme="buttonOnHover"
-            >
-              Deletar
-            </Button>
+            {isDashboardPage && (
+              <Button
+                variant="ghost"
+                bg="tropical_indigo"
+                color="mint_cream"
+                colorScheme="buttonOnHover"
+              >
+                Deletar
+              </Button>
+            )}
           </ButtonGroup>
         </CardFooter>
       </Card>
@@ -93,7 +99,7 @@ const LiveCard: React.FC<LiveProps> = ({
             </Text>
           </Stack>
           <Text>
-            {startDate} - {finishDate}
+            {dateFormat(startDate)} até {dateFormat(finishDate)}
           </Text>
         </CardBody>
         <Divider />
@@ -107,14 +113,16 @@ const LiveCard: React.FC<LiveProps> = ({
             >
               Detalhes
             </Button>
-            <Button
-              variant="ghost"
-              bg="tropical_indigo"
-              color="mint_cream"
-              colorScheme="buttonOnHover"
-            >
-              Deletar
-            </Button>
+            {isDashboardPage && (
+              <Button
+                variant="ghost"
+                bg="tropical_indigo"
+                color="mint_cream"
+                colorScheme="buttonOnHover"
+              >
+                Deletar
+              </Button>
+            )}
           </ButtonGroup>
         </CardFooter>
       </Card>

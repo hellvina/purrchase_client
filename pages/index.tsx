@@ -1,13 +1,13 @@
 import { NextPage } from "next";
-import getLives from "@/services/api/lives";
+import { getLives } from "@/services/api/lives";
 import { useState, useEffect } from "react";
-import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import Header from "@/components/Header";
 import LiveCard, { LiveProps } from "@/components/LiveCard";
 import responseIterator from "@/helpers/responseIterator";
+import React from "react";
 
 const Index: NextPage = () => {
-  const smaller768 = useMediaQuery("(max-width: 768px)");
   const [lives, setLives] = useState<[]>([]);
 
   useEffect(() => {
@@ -45,7 +45,3 @@ const Index: NextPage = () => {
 };
 
 export default Index;
-
-function setLivesState(newData: any) {
-  throw new Error("Function not implemented.");
-}

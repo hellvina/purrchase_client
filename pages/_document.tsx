@@ -7,7 +7,7 @@ class Document extends NextDocument {
       <Html lang="en">
         <Head></Head>
         <body>
-          <ColorModeScript initialColorMode="light" />
+          <ColorModeScript initialColorMode="dark" />
           <Main />
           <NextScript />
         </body>

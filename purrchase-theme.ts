@@ -7,14 +7,10 @@ const purrchaseTheme = extendTheme({
     tropical_indigo: "#9b7edeff",
     mint_cream: "#eff9f0ff",
   },
-  initialColorMode: "light",
+  initialColorMode: "dark",
   useSystemColorMode: false,
   styles: {
     global: {
-      // body: {
-      //   bg: 'mint_cream',
-      //   color: 'white',
-      // },
       a: {
         color: "teal.500",
         _hover: {

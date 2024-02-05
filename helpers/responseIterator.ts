@@ -4,7 +4,6 @@ const responseIterator = (object: Object | void): [] => {
   }
 
   const entries = Object.entries(object as Object);
-  console.log("ENTRIES", entries);
   return entries[0][1];
 };
 
