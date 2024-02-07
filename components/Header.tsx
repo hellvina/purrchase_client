@@ -78,7 +78,6 @@ const Header = () => {
     try {
       setIsSaving(true);
       const createdUser = await createUser({ username, email, password });
-      console.log("createdUser", createdUser);
       setTokenToLocalDb(createdUser.token);
       setIdToLocalDb(createdUser.user.id);
     } catch (error) {

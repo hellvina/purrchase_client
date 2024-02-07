@@ -9,6 +9,7 @@ import { getTokenFromLocalDb } from "@/helpers/localDbHelper";
 import LiveForm from "@/components/LiveForm";
 import router from "next/router";
 
+
 const Index: NextPage = () => {
   const [lives, setLives] = useState<LiveProps[]>([]);
   const [withoutLives, setWhitoutLives] = useState<boolean>(false);
@@ -37,7 +38,6 @@ const Index: NextPage = () => {
   const handleFormSubmit = async (formData: FormData) => {
     try {
       const live = await createLive(formData);
-      console.log("LIVE", live);
       setLives((prevLives) => {
         if (live !== null) {
           return [live, ...prevLives].filter(Boolean) as LiveProps[];
@@ -68,7 +68,7 @@ const Index: NextPage = () => {
         >
           {lives.map((live: LiveProps) => (
             <Box key={live.id} maxW="fit-content">
-              <LiveCard {...live} />
+              <LiveCard {...live} id={live.id} />
             </Box>
           ))}
         </Flex>

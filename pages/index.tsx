@@ -13,8 +13,7 @@ const Index: NextPage = () => {
   useEffect(() => {
     const live = async () => {
       try {
-        const token = process.env.NEXT_PUBLIC_TOKEN;
-        const rawData = await getLives("1", token);
+        const rawData = await getLives("1");
         const newData = responseIterator(rawData);
         setLives(newData);
       } catch (error) {

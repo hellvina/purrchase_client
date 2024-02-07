@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Header from "@/components/Header";
-import LiveForm from "@/components/LiveForm";
 import { Flex } from "@chakra-ui/react";
+import CreateLiveForm from "@/components/CreateLiveForm";
 
 const Dashboard: NextPage = () => {
   return (
@@ -14,7 +14,7 @@ const Dashboard: NextPage = () => {
         justifyContent="center"
         padding="3em 3em 0 3em"
       >
-        <LiveForm title="Crie sua Live" />
+        <CreateLiveForm title="Crie sua Live" />
       </Flex>
     </>
   );

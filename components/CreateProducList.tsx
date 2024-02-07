@@ -1,6 +1,5 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
-  Box,
   CardHeader,
   FormControl,
   Heading,
@@ -10,8 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import Product from "./Product";
-import { listProducts, updateLive } from "@/services/api/lives";
-import responseIterator from "@/helpers/responseIterator";
 
 interface ProductProps {
   id?: string;
@@ -20,40 +17,35 @@ interface ProductProps {
   quantity?: number;
 }
 
-interface ProductsListProps {
-  products: ProductProps[];
-  setProducts: (products: ProductProps[]) => void;
+interface CreateProductListProps {
+  onChange: (products: ProductProps[]) => void;
 }
 
-const ProductList: FC<ProductProps> = ({ id, name, quantity }) => {
-  type ProductType = React.ReactElement;
-  const [products, setProducts] = useState<Object[]>([]);
+const CreateProductList: FC<CreateProductListProps> = ({ onChange }) => {
+  const [products, setProducts] = useState<ProductProps[]>([
+    { id: "", name: "", image: "", quantity: 1 },
+  ]);
 
-  useEffect(() => {
-    const handleLoadProducts = async () => {
-      try {
-        const response = await listProducts(id || "");
-        const formatedData = responseIterator(response);
-        setProducts(formatedData);
-      } catch (error) {
-        console.error("Error while loading products", error);
-        throw new Error("Error while loading products");
-      }
-    };
-    handleLoadProducts();
-  }, []);
+  const handleProductChange = (index: number, newProduct: ProductProps) => {
+    const updatedProducts = [...products];
+    updatedProducts[index] = newProduct;
+    setProducts(updatedProducts);
+    onChange(updatedProducts);
+  };
 
   const removeProduct = () => {
     if (products.length > 1) {
       setProducts((prevProducts) => prevProducts.slice(0, -1));
+      onChange(products.slice(0, -1));
     }
   };
 
   const addProduct = () => {
     setProducts((prevProducts) => [
       ...prevProducts,
-      <Product key={prevProducts.length} quantity={1} />,
+      { id: "", name: "", image: "", quantity: 1 },
     ]);
+    onChange([...products, { id: "", name: "", image: "", quantity: 1 }]);
   };
 
   return (
@@ -70,12 +62,16 @@ const ProductList: FC<ProductProps> = ({ id, name, quantity }) => {
       </CardHeader>
 
       <Stack divider={<StackDivider />} spacing="4">
+        {products.map((product, index) => (
+          <Product
+            key={index}
+            name={product.name}
+            image={product.image}
+            quantity={product.quantity}
+            onChange={(newProduct) => handleProductChange(index, newProduct)}
+          />
+        ))}
         <FormControl>
-          {products.map((product: ProductProps) => (
-            <Box key={product.id} maxW="fit-content">
-              <Product {...product} />
-            </Box>
-          ))}
           <IconButton
             backgroundColor="tropical_indigo"
             aria-label="Call Segun"
@@ -97,4 +93,4 @@ const ProductList: FC<ProductProps> = ({ id, name, quantity }) => {
   );
 };
 
-export default ProductList;
+export default CreateProductList;

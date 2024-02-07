@@ -37,12 +37,9 @@ const SignInForm = () => {
 
     try {
       const userLogged = await loginUser({ email, password });
-      console.log("LOG BEFORE CREATE", logged);
 
       setTokenToLocalDb(userLogged.token);
       setIdToLocalDb(userLogged.user.id);
-
-      console.log("AFETR CREATE", logged);
     } catch (error) {
       setErrorAlert("Error when tring login with user");
       return errorAlert;

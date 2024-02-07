@@ -1,4 +1,4 @@
-import { dateFormat } from "@/helpers/dateFormat";
+import { formatDate } from "@/helpers/dateFormat";
 import {
   Card,
   Text,
@@ -10,6 +10,7 @@ import {
   Stack,
   Heading,
   Image,
+  Link,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
@@ -26,6 +27,7 @@ export interface LiveProps {
 }
 
 const LiveCard: React.FC<LiveProps> = ({
+  id,
   title,
   image,
   description,
@@ -52,20 +54,32 @@ const LiveCard: React.FC<LiveProps> = ({
             <Text>{description}</Text>
           </Stack>
           <Text>
-            {dateFormat(startDate)} até {dateFormat(finishDate)}
+            {formatDate(startDate)} até {formatDate(finishDate)}
           </Text>
         </CardBody>
         <Divider />
         <CardFooter>
           <ButtonGroup spacing="2">
-            <Button
-              variant="solid"
-              bg="tropical_indigo"
-              color="mint_cream"
-              colorScheme="buttonOnHover"
-            >
-              Detalhes
-            </Button>
+            {isDashboardPage ? (
+              <Button
+                variant="solid"
+                bg="tropical_indigo"
+                color="mint_cream"
+                colorScheme="buttonOnHover"
+              >
+                <Link href={`/edit/${id}`}>Editar</Link>
+              </Button>
+            ) : (
+              <Button
+                variant="solid"
+                bg="tropical_indigo"
+                color="mint_cream"
+                colorScheme="buttonOnHover"
+              >
+                Detalhes
+              </Button>
+            )}
+
             {isDashboardPage && (
               <Button
                 variant="ghost"
@@ -99,20 +113,32 @@ const LiveCard: React.FC<LiveProps> = ({
             </Text>
           </Stack>
           <Text>
-            {dateFormat(startDate)} até {dateFormat(finishDate)}
+            {formatDate(startDate)} até {formatDate(finishDate)}
           </Text>
         </CardBody>
         <Divider />
         <CardFooter>
           <ButtonGroup spacing="2">
-            <Button
-              variant="solid"
-              bg="tropical_indigo"
-              color="mint_cream"
-              colorScheme="buttonOnHover"
-            >
-              Detalhes
-            </Button>
+            {isDashboardPage ? (
+              <Button
+                variant="solid"
+                bg="tropical_indigo"
+                color="mint_cream"
+                colorScheme="buttonOnHover"
+              >
+                <Link href={`/edit/${id}`}>Editar</Link>
+              </Button>
+            ) : (
+              <Button
+                variant="solid"
+                bg="tropical_indigo"
+                color="mint_cream"
+                colorScheme="buttonOnHover"
+              >
+                Detalhes
+              </Button>
+            )}
+
             {isDashboardPage && (
               <Button
                 variant="ghost"

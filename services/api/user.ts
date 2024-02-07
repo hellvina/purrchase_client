@@ -13,14 +13,10 @@ const createUser = async (userData: object | undefined) => {
       body: JSON.stringify(userData),
     });
 
-    console.log("SEND DATA", userData);
-
     if (response.ok) {
       return response.json();
     }
   } catch (error) {
-    console.log("ERROR", error);
-
     throw Error("Error while creating account");
   }
 };

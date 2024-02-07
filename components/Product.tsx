@@ -1,4 +1,3 @@
-import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Flex,
   FormLabel,
@@ -9,23 +8,75 @@ import {
   NumberInputField,
   NumberInputStepper,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { FC } from "react";
 
-const Product = (): ReactNode => {
+interface ProductProps {
+  name?: string;
+  image?: string;
+  quantity?: number;
+  onChange?: (newProduct: ProductProps) => void;
+}
+
+const Product: FC<ProductProps> = ({
+  name = "",
+  image = "",
+  quantity,
+  onChange = () => {},
+}) => {
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange({ name: event.target.value, image, quantity });
+    }
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange({ name, image: event.target.value, quantity });
+    }
+  };
+
+  const handleQuantityChange = (valueAsString: string) => {
+    const newQuantity = parseInt(valueAsString, 10);
+    if (!isNaN(newQuantity)) {
+      onChange({ name, image, quantity: newQuantity });
+    }
+  };
+
   return (
     <Flex gap={8} marginBottom="1em">
-      <FormLabel position="absolute" top="-2em">
-        Nome
+      <FormLabel position="absolute">Nome:</FormLabel>
+      <Input
+        placeholder="Nome do Produto"
+        type="text"
+        padding="0.3em"
+        marginTop="2em"
+        value={name}
+        onChange={handleNameChange}
+      />
+      <FormLabel position="absolute" right="46%">
+        Imagem:
       </FormLabel>
-      <Input type="text" padding="0.3em" />
-      <FormLabel position="absolute" top="-2em" right="50%">
-        Imagem
+      <Input
+        padding="0.3em"
+        marginTop="2em"
+        marginLeft="0.2em"
+        value={image}
+        type="file"
+        onChange={handleImageChange}
+      />
+      <FormLabel position="absolute" right="2%">
+        Quantidade:
       </FormLabel>
-      <Input type="file" padding="0.3em" />
-      <FormLabel position="absolute" top="-2em" right="8%">
-        Quantidade
-      </FormLabel>
-      <NumberInput size="md" maxW={1000} defaultValue={1} min={1}>
+      <NumberInput
+        size="md"
+        marginTop="2em"
+        marginLeft="0.1em"
+        defaultValue={1}
+        min={1}
+        maxW={1000}
+        value={quantity}
+        onChange={handleQuantityChange}
+      >
         <NumberInputField />
         <NumberInputStepper>
           <NumberIncrementStepper />

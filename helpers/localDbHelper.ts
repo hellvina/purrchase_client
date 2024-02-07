@@ -5,12 +5,12 @@ interface UserData {
 
 export const setTokenToLocalDb = (token: string) => {
   if (window !== undefined) {
-    localStorage.setItem("User.token", JSON.stringify(token));
+    localStorage.setItem("User.token", token);
   }
 };
 
 export const getTokenFromLocalDb = (): string => {
-  const userToken = localStorage.getItem("User.token") as string;
+  const userToken = localStorage.getItem("User.token");
   if (userToken !== null) {
     return userToken;
   }
@@ -20,14 +20,13 @@ export const getTokenFromLocalDb = (): string => {
 
 export const setIdToLocalDb = (userId: string) => {
   if (window !== undefined) {
-    localStorage.setItem("User.id", JSON.stringify(userId));
+    localStorage.setItem("User.id", userId);
   }
 };
 
 export const getIdFromLocalDb = (): string | null => {
-  const userId = localStorage.getItem("User.id") as string;
-  if (userId !== null && window !== undefined) {
-    return userId;
+  if (typeof window !== "undefined" && window.localStorage) {
+    return localStorage.getItem("User.id");
   }
 
   return null;
