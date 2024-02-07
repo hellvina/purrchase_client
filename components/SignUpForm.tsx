@@ -1,6 +1,6 @@
-import { setIdToLocalDb, setTokenToLocalDb } from "@/helpers/tokenHelper";
-import createUser from "@/services/api/user";
-import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { setIdToLocalDb, setTokenToLocalDb } from "@/helpers/localDbHelper";
+import { createUser } from "@/services/api/user";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 const SignUpForm = () => {

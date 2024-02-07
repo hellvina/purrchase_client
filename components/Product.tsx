@@ -25,7 +25,7 @@ const Product = (): ReactNode => {
       <FormLabel position="absolute" top="-2em" right="8%">
         Quantidade
       </FormLabel>
-      <NumberInput size="md" maxW={24} defaultValue={15} min={10}>
+      <NumberInput size="md" maxW={1000} defaultValue={1} min={1}>
         <NumberInputField />
         <NumberInputStepper>
           <NumberIncrementStepper />

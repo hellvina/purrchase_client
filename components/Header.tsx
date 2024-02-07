@@ -29,16 +29,32 @@ import { useMediaQuery } from "usehooks-ts";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import React from "react";
 import SignInForm from "./SignInForm";
-import createUser from "@/services/api/user";
-import { getTokenFromLocalDb, setIdToLocalDb } from "@/helpers/tokenHelper";
+import { createUser } from "@/services/api/user";
+import {
+  getTokenFromLocalDb,
+  setIdToLocalDb,
+  setTokenToLocalDb,
+} from "@/helpers/localDbHelper";
 
-const Header = (): ReactNode => {
+const Header = () => {
   const matches_768 = useMediaQuery("(min-width: 768px)");
   const smallerThan768 = useMediaQuery("(max-width: 768px)");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [logged, setLogged] = useState(false);
+  const [errorAlert, setErrorAlert] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = getTokenFromLocalDb();
+
+    if (token !== undefined && token !== null && token !== "") {
+      setLogged(true);
+    } else {
+      setLogged(false);
+    }
+  }, []);
 
   const catchUsername = (element: {
     target: { value: React.SetStateAction<string> };
@@ -62,19 +78,16 @@ const Header = (): ReactNode => {
     try {
       setIsSaving(true);
       const createdUser = await createUser({ username, email, password });
-      const userObject = createdUser as { token: string; user: { id: string } };
-      setTokenToLocalDb(userObject.token);
-      setIdToLocalDb(userObject.user.id);
+      console.log("createdUser", createdUser);
+      setTokenToLocalDb(createdUser.token);
+      setIdToLocalDb(createdUser.user.id);
     } catch (error) {
       console.error("Error trying to create user", error);
+      setErrorAlert("Error creating account");
     } finally {
       setIsSaving(false);
       await onCreateModalClose();
     }
-  };
-
-  const saveUserOnClick = () => {
-    CreateUser();
   };
 
   const {
@@ -100,16 +113,10 @@ const Header = (): ReactNode => {
     onLoginModalOpen();
   };
 
-  const token = getTokenFromLocalDb as unknown;
-  const [logged, setLogged] = useState(false);
-
-  console.log("TOKEN", token);
-
-  useEffect(() => {
-    if (token) {
-      setLogged(true);
-    }
-  }, [token]);
+  const saveUserOnClick = async () => {
+    CreateUser();
+    setLogged(true);
+  };
 
   if (matches_768) {
     return (
@@ -118,13 +125,21 @@ const Header = (): ReactNode => {
           <Logo />
         </Link>
         <Spacer />
-        <Button onClick={handleLoginButtonClick} width="fit-content">
-          Entrar
-        </Button>
-        <Button onClick={handleCreateButtonClick} bgColor="tropical_indigo">
-          Cadastrar-se
-        </Button>
-
+        {!logged && (
+          <>
+            <Button
+              onClick={handleLoginButtonClick}
+              bgColor="tropical_indigo"
+              width="fit-content"
+              type="submit"
+            >
+              Entrar
+            </Button>
+            <Button onClick={handleCreateButtonClick} bgColor="tropical_indigo">
+              Cadastrar-se
+            </Button>
+          </>
+        )}
         <Modal
           isOpen={isLoginModalOpen}
           onClose={onLoginModalClose}
@@ -139,9 +154,6 @@ const Header = (): ReactNode => {
               <SignInForm />
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" mr={3}>
-                Salvar
-              </Button>
               <Button onClick={onLoginModalClose}>Cancelar</Button>
             </ModalFooter>
           </ModalContent>
@@ -238,10 +250,12 @@ const Header = (): ReactNode => {
             icon={<HamburgerIcon />}
             variant="outline"
           />
-          <MenuList>
-            <MenuItem>Entrar</MenuItem>
-            <MenuItem>Cadastrar-se</MenuItem>
-          </MenuList>
+          {!logged && (
+            <MenuList>
+              <MenuItem>Entrar</MenuItem>
+              <MenuItem>Cadastrar-se</MenuItem>
+            </MenuList>
+          )}
           {logged && (
             <Stack direction="row" spacing={4}>
               <Avatar>
@@ -254,11 +268,5 @@ const Header = (): ReactNode => {
     );
   }
 };
-export default Header;
-function setTokenToLocalDb(token: string) {
-  throw new Error("Function not implemented.");
-}
 
-function getTokenToLocalDb(id: string) {
-  throw new Error("Function not implemented.");
-}
+export default Header;
